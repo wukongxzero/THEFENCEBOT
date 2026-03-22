@@ -1,0 +1,151 @@
+<mujoco model="asem">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <option integrator="implicitfast" timestep="0.001"/>
+
+  <default>
+    <default class="visual">
+      <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+    </default>
+    <default class="collision">
+      <geom type="mesh" contype="1" conaffinity="1" group="3" rgba="0.8 0.2 0.2 0.25"/>
+    </default>
+  </default>
+
+  <asset>
+    <mesh name="asem_base_link" file="base_link.obj"/>
+    <mesh name="asem_link1"     file="link1.obj"/>
+    <mesh name="asem_link2"     file="link2.obj"/>
+    <mesh name="asem_link3"     file="link3.obj"/>
+    <mesh name="asem_link4"     file="link4.obj"/>
+    <mesh name="asem_link5"     file="link5.obj"/>
+    <mesh name="asem_link6"     file="link6.obj"/>
+  </asset>
+
+  <worldbody>
+    <body name="asem_root" pos="0 0 0">
+
+      <body name="base_link" pos="0 0 0">
+        <inertial
+          pos="0.000783610372245155 0.000780779155891816 0.22487687951109"
+          mass="0.656798808945253"
+          fullinertia="0.00352706468827847 0.00354410801464646 0.00022739890592658
+                       -1.80141580287448e-06 8.68934291778745e-07 9.00707901436597e-07"/>
+        <geom class="visual"    mesh="asem_base_link"/>
+        <geom class="collision" mesh="asem_base_link"/>
+
+        <!-- j1: base_link -> link1 -->
+        <body name="link1"
+              pos="0 0 0.532999999999992"
+              euler="-1.57079632679455 0 -1.57079632679567">
+          <inertial
+            pos="-1.1192675258842e-11 1.53877785190812e-05 0.0699801166821439"
+            mass="0.120852949012653"
+            fullinertia="7.02975867816925e-05 4.76574284717077e-05 4.02294785409818e-05
+                         9.99323124219071e-14 6.29006420014835e-14 -3.17750717415396e-08"/>
+          <joint name="j1" type="hinge"
+                 axis="0 0 -1"
+                 range="-3.14 3.14"
+                 damping="7" armature="0.0"/>
+          <geom class="visual"    mesh="asem_link1"/>
+          <geom class="collision" mesh="asem_link1"/>
+
+          <!-- j2: link1 -> link2 -->
+          <body name="link2"
+                pos="0 0 0.093699999999975"
+                euler="1.5707963267949 -1.5707963267949 0">
+            <inertial
+              pos="0.0792972044006984 -4.966580853731e-05 4.99999999999806e-05"
+              mass="0.14035863699268"
+              fullinertia="6.09160617441116e-05 6.39289714783637e-05 8.09923563529688e-05
+                           -3.17736108122861e-08 -1.21140051073515e-20 -2.37554357215717e-21"/>
+            <joint name="j2" type="hinge"
+                   axis="0 0 1"
+                   range="-3.14 3.14"
+                   damping="7" armature="0.01"/>
+            <geom class="visual"    mesh="asem_link2"/>
+            <geom class="collision" mesh="asem_link2"/>
+
+            <!-- j3: link2 -> link3 -->
+            <body name="link3"
+                  pos="0.076 -4.99999999999962e-05 4.99999999999806e-05"
+                  euler="-1.5707963267949 0 0">
+              <inertial
+                pos="0.106202976965644 -1.38777878078145e-17 9.48819146900058e-06"
+                mass="0.195921875509131"
+                fullinertia="6.69647666943292e-05 0.000119643985450752 8.13405997060887e-05
+                             6.1265784205265e-12 -3.17736108122398e-08 6.06860112751918e-10"/>
+              <joint name="j3" type="hinge"
+                     axis="0 0 -1"
+                     range="-3.14 3.14"
+                     damping="7" armature="0.01"/>
+              <geom class="visual"    mesh="asem_link3"/>
+              <geom class="collision" mesh="asem_link3"/>
+
+              <!-- j4: link3 -> link4 -->
+              <body name="link4"
+                    pos="0.1524 0 0"
+                    euler="0 0 0">
+                <inertial
+                  pos="0.121297780922475 -0.00228656782111138 -0.0138460602818061"
+                  mass="0.178854495034261"
+                  fullinertia="7.49286492698528e-05 0.000304798739532731 0.000258620428706312
+                               -3.85497495108717e-07 7.55666513639472e-07 -4.09856411979482e-06"/>
+                <joint name="j4" type="hinge"
+                       axis="0 0 1"
+                       range="-3.14 3.14"
+                       damping="7" armature="0.01"/>
+                <geom class="visual"    mesh="asem_link4"/>
+                <geom class="collision" mesh="asem_link4"/>
+
+                <!-- j5: link4 -> link5 -->
+                <body name="link5"
+                      pos="0.203415334104116 -0.0326559999999993 -0.0424779999999994"
+                      euler="1.5707963267949 0 0">
+                  <inertial
+                    pos="0.017623450623141 0.0250720179485942 0.0147844406504887"
+                    mass="0.0509977130540439"
+                    fullinertia="1.37983244494247e-05 8.07033122032687e-06 1.7649492763302e-05
+                                 -7.54684042513299e-07 -2.96781875492616e-07 -4.31943035783113e-07"/>
+                  <joint name="j5" type="hinge"
+                         axis="0 0 -1"
+                         range="-3.14 3.14"
+                         damping="2" armature="0.01"/>
+                  <geom class="visual"    mesh="asem_link5"/>
+                  <geom class="collision" mesh="asem_link5"/>
+
+                  <!-- j6: link5 -> link6 -->
+                  <body name="link6"
+                        pos="0.0474750000000006 0.0179749999999995 0.0194250000000002"
+                        euler="0 -1.5707963267949 0">
+                    <inertialcr555                                                                                                                                                                           
+                      pos="0.0044743505779595 -7.97057662232925e-09 0.005009004270078"
+                      mass="0.00796119611791654"
+                      fullinertia="3.42403171450765e-07 6.13789450189992e-07 6.82449762710764e-07
+                                   -3.56529906151535e-12 -1.29953843092014e-08 -1.10568785578683e-12"/>
+                    <joint name="j6" type="hinge"
+                           axis="0 0 -1"
+                           range="-3.14 3.14"
+                           damping="7" armature="0.01"/>
+                    <geom class="visual"    mesh="asem_link6"/>
+                    <geom class="collision" mesh="asem_link6"/>
+                  </body>
+
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <motor name="m1" joint="j1" gear="1"/>
+    <motor name="m2" joint="j2" gear="1"/>
+    <motor name="m3" joint="j3" gear="1"/>
+    <motor name="m4" joint="j4" gear="1"/>
+    <motor name="m5" joint="j5" gear="1"/>
+    <motor name="m6" joint="j6" gear="1"/>
+  </actuator>
+</mujoco>

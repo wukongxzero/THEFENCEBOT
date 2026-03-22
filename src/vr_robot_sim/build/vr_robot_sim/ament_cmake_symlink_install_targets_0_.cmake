@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/vr_udp_publisher" "/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/robot_controller" "TARGETS" "vr_udp_publisher" "robot_controller" "DESTINATION" "lib/vr_robot_sim")

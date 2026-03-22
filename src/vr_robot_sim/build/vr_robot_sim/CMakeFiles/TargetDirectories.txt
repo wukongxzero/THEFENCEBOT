@@ -1,0 +1,11 @@
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/uninstall.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/vr_robot_sim_uninstall.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/vr_udp_publisher.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/robot_controller.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/test.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/edit_cache.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/rebuild_cache.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/list_install_components.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/install.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/install/local.dir
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/CMakeFiles/install/strip.dir

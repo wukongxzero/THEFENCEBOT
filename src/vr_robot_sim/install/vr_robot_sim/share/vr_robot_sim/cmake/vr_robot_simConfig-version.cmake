@@ -1,0 +1,1 @@
+/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim/ament_cmake_core/vr_robot_simConfig-version.cmake

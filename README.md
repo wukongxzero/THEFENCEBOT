@@ -211,7 +211,7 @@ fencebot_ws/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/yourusername/fencebot.git
+git clone https://github.com/wukongxzero/THEFENCEBOT.git
 cd fencebot
 
 # 2. Install ROS2 dependencies
