@@ -1,184 +1,72 @@
-# VR Teleoperated Fencing Robot 🤺
+# THEFENCEBOT 🤺
 
-A real-time teleoperation system for controlling a robotic fencing arm using VR controllers. Built with ROS2, Unity/SteamVR, and inverse kinematics for precise sword control.
+A real-time VR teleoperation system for controlling a custom 6-DOF robotic arm using VR controllers. Built with ROS2 Humble (C++), Isaac Lab, and a differential IK solver.
 
 ## 🎯 Project Overview
 
-This project enables intuitive control of a robotic fencing arm through VR hand tracking, with future potential for autonomous fencing behaviors using machine learning.
+This project enables real-time control of the ASEM robotic arm through VR hand tracking. The VR headset streams pose data over UDP, which is received by ROS2 C++ nodes and forwarded to an Isaac Lab simulation where a differential IK solver computes joint angles for the arm.
 
-**Current Status:** Teleoperation Phase  
-**Timeline:** 2.5 months (10 weeks)  
-**Future Goal:** Add autonomous fencing layer using behavior cloning/RL
+**Current Status:** Simulation + IK Working  
+**Future Goal:** Connect real VR headset, add gripper control, deploy to hardware
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        VR LAYER                              │
-│  ┌─────────────────┐                                        │
-│  │   VR Headset    │  (Visualization & immersion)           │
-│  │  + Controllers  │  (Track sword hand position/rotation)  │
-│  └────────┬────────┘                                        │
-└───────────┼──────────────────────────────────────────────────┘
-            │
-            │ UDP Stream (Pose + Button States)
-            │ Port: 8888
-            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                      ROS2 LAYER                              │
-│                                                              │
-│  ┌─────────────────┐                                        │
-│  │  UDP Bridge     │  Receives VR data                      │
-│  │     Node        │  Publishes: /vr/sword_pose             │
-│  └────────┬────────┘                                        │
-│           │                                                  │
-│           ▼                                                  │
-│  ┌─────────────────┐                                        │
-│  │  Safety Monitor │  Workspace limits, velocity checks     │
-│  │     Node        │  Emergency stop logic                  │
-│  └────────┬────────┘                                        │
-│           │                                                  │
-│           ▼                                                  │
-│  ┌─────────────────┐                                        │
-│  │   IK Solver     │  MoveIt2 integration                   │
-│  │   (MoveIt2)     │  Converts pose → joint angles          │
-│  └────────┬────────┘                                        │
-│           │                                                  │
-│           ▼                                                  │
-│  ┌─────────────────┐                                        │
-│  │ Motor Control   │  Joint commands                        │
-│  │     Node        │  Publishes: /joint_commands            │
-│  └────────┬────────┘                                        │
-│           │                                                  │
-│  ┌───────┴────────┐                                         │
-│  │  Data Logger   │  Records all topics to ROS bags         │
-│  │     Node       │  For future ML training                 │
-│  └────────────────┘                                         │
-└───────────┼──────────────────────────────────────────────────┘
-            │
-            ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    HARDWARE LAYER                            │
-│  ┌─────────────────┐                                        │
-│  │  Robot Arm      │  6/7-DOF manipulator                   │
-│  │  + Sword Tool   │  End-effector with fencing sword       │
-│  └─────────────────┘                                        │
-└─────────────────────────────────────────────────────────────┘
+VR Headset
+    │
+    │  UDP packets (x, y, z, qx, qy, qz, qw)
+    │  Port 5005
+    ▼
+C++ ROS2 Node: vr_udp_publisher
+    │  Publishes → /vr_pose (geometry_msgs/PoseStamped)
+    │  BEST_EFFORT QoS (matches UDP semantics)
+    ▼
+C++ ROS2 Node: robot_controller
+    │  Subscribes to /vr_pose
+    │  500Hz control loop
+    │  Forwards pose → Port 5006
+    ▼
+Isaac Lab (Python 3.11)
+    │  UDPListener on port 5006
+    │  Differential IK solver (pinv method)
+    │  ASEM robot USD asset
+    ▼
+Isaac Sim 5.1
+    │  6-DOF ASEM arm simulated at 100Hz
+    │  Physics: PhysX
+    └  Viewer: RTX Real-Time
 ```
 
 ---
 
-## 📊 Data Flow Diagram
+##  Project Structure
 
 ```
-VR Controller Movement
-        │
-        ▼
-   [Position, Rotation, Buttons]
-        │
-        ▼
-    UDP Packet (Binary)
-        │
-        ▼
-  ROS2 Bridge Node
-        │
-        ├──> geometry_msgs/PoseStamped → /vr/sword_pose
-        │
-        ▼
-  Safety Monitor
-        │
-        ├──> Check workspace limits
-        ├──> Check velocity limits
-        ├──> Emergency stop if needed
-        │
-        ▼
-  IK Solver (MoveIt2)
-        │
-        ├──> Compute joint angles
-        ├──> Check for singularities
-        │
-        ▼
-  Motor Control Node
-        │
-        ├──> trajectory_msgs/JointTrajectory
-        │
-        ▼
-  Robot Hardware Interface
-        │
-        ▼
-   Physical Robot Arm
-```
-
----
-
-## 🗂️ Project Structure
-
-```
-fencebot_ws/
+THEFENCEBOT/
 ├── src/
-│   ├── fencebot_core/              # Main ROS2 package
-│   │   ├── package.xml
-│   │   ├── CMakeLists.txt
-│   │   ├── include/
-│   │   │   └── fencebot_core/
-│   │   │       ├── udp_bridge_node.hpp
-│   │   │       ├── ik_control_node.hpp
-│   │   │       ├── safety_monitor_node.hpp
-│   │   │       ├── motor_control_node.hpp
-│   │   │       └── data_logger_node.hpp
-│   │   ├── src/
-│   │   │   ├── udp_bridge_node.cpp      # VR → ROS2 communication
-│   │   │   ├── ik_control_node.cpp      # Inverse kinematics
-│   │   │   ├── safety_monitor_node.cpp  # Safety systems
-│   │   │   ├── motor_control_node.cpp   # Hardware interface
-│   │   │   └── data_logger_node.cpp     # Recording for ML
-│   │   ├── launch/
-│   │   │   ├── teleoperation.launch.py # Main launch file
-│   │   │   └── visualization.launch.py # RViz config
-│   │   └── config/
-│   │       ├── robot_params.yaml       # Robot configuration
-│   │       ├── safety_limits.yaml      # Workspace/velocity limits
-│   │       └── vr_mapping.yaml         # VR-to-robot coordinate mapping
-│   │
-│   ├── fencebot_description/       # Robot URDF/meshes
-│   │   ├── urdf/
-│   │   │   └── fencebot.urdf.xacro
-│   │   ├── meshes/
-│   │   └── launch/
-│   │       └── display.launch.py
-│   │
-│   └── fencebot_moveit_config/     # MoveIt2 configuration
-│       ├── config/
-│       │   ├── joint_limits.yaml
-│       │   ├── kinematics.yaml
-│       │   └── moveit.rviz
-│       └── launch/
-│           └── moveit.launch.py
+│   └── vr_robot_sim/               # ROS2 C++ package
+│       ├── src/
+│       │   ├── vr_udp_publisher.cpp  # UDP → /vr_pose topic
+│       │   └── robot_controller.cpp  # Subscriber + control loop
+│       ├── CMakeLists.txt
+│       └── package.xml
 │
-├── vr_app/                          # Unity VR application
-│   ├── Assets/
-│   │   ├── Scripts/
-│   │   │   ├── VRController.cs          # VR tracking
-│   │   │   ├── UDPSender.cs             # Network communication
-│   │   │   └── RobotVisualizer.cs       # Ghost arm feedback
-│   │   ├── Scenes/
-│   │   │   └── FencingArena.unity
-│   │   └── Prefabs/
-│   └── ProjectSettings/
+├── isaac_env/                      # Isaac Lab simulation
+│   ├── vr_arm_env.py               # ASEM env + robot config
+│   └── run_sim.py                  # Launcher + IK controller
 │
+├── Simulation/
+│   └── ASEM_V2.SLDASM/
+│       ├── urdf/
+│       │   └── ASEM_V2.SLDASM.urdf  # Robot URDF (6 revolute joints)
+│       └── usd/
+│           └── ASEM_V2.usd          # Converted USD for Isaac Lab
+│
+├── IsaacLab/                       # Isaac Lab install (v2.3.2)
 ├── docs/
-│   ├── setup_guide.md              # Detailed setup instructions
-│   ├── calibration.md              # Calibration procedures
-│   ├── safety.md                   # Safety protocols
-│   └── troubleshooting.md          # Common issues
-│
 ├── scripts/
-│   ├── install_dependencies.sh     # Auto-install ROS2 packages
-│   ├── calibrate_workspace.py      # Workspace calibration tool
-│   └── emergency_stop.py           # Manual e-stop script
-│
 └── README.md
 ```
 
@@ -186,114 +74,96 @@ fencebot_ws/
 
 ## 🛠️ Technology Stack
 
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **VR Platform** | Unity + SteamVR | Hand tracking and visualization |
-| **Middleware** | ROS2 Humble | Robot control and coordination |
-| **IK Solver** | MoveIt2 | Inverse kinematics computation |
-| **Communication** | UDP Sockets | Low-latency VR → ROS2 streaming |
-| **Programming** | C++ 17/20 | ROS2 nodes (performance-critical) |
-| **Hardware Interface** | ros2_control | Motor communication |
-| **Visualization** | RViz2 | Robot state monitoring |
+| Component | Technology |
+|-----------|-----------|
+| **Simulation** | Isaac Lab 2.3.2 + Isaac Sim 5.1 |
+| **IK Solver** | Isaac Lab DifferentialIKController (pinv) |
+| **Middleware** | ROS2 Humble |
+| **ROS2 Nodes** | C++17 |
+| **Communication** | UDP Sockets (port 5005 VR→ROS2, port 5006 ROS2→Isaac) |
+| **Robot** | ASEM V2 — 6-DOF custom arm (j1–j6, all revolute) |
+| **Physics** | PhysX via Isaac Sim |
+| **Python** | 3.11 (Isaac Lab venv at /opt/isaaclab_data/.venv) |
 
 ---
 
-## 🚀 Quick Start
+## 🤖 Robot Specs (ASEM V2)
+
+| Property | Value |
+|----------|-------|
+| DOF | 6 |
+| Joint names | j1, j2, j3, j4, j5, j6 |
+| Joint type | Revolute |
+| Joint limits | -3.14 to 3.14 rad |
+| End effector | link6 |
+| Rest position (EE) | [0.573, -0.025, 0.582] m |
+| Actuator stiffness | 100.0 |
+| Actuator damping | 10.0 |
+
+---
+
+## 🚀 Setup
 
 ### Prerequisites
 
-- Ubuntu 22.04 LTS
+- Ubuntu 22.04
+- NVIDIA GPU (8GB+ VRAM, driver 525+)
+- CUDA 12.x
+- Python 3.11
 - ROS2 Humble
-- VR Headset (Quest 3, Valve Index, etc.)
-- Robot arm with ROS2 support
 
-### Installation
+### Environment Setup
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/wukongxzero/THEFENCEBOT.git
-cd fencebot
+# 1. Activate Isaac Lab venv
+source /opt/isaaclab_data/.venv/bin/activate
 
-# 2. Install ROS2 dependencies
-cd fencebot_ws
-rosdep install --from-paths src -y --ignore-src
+# 2. Source ROS2
+source /opt/ros/humble/setup.bash
 
-# 3. Install additional C++ libraries
-sudo apt install -y \
-    libeigen3-dev \
-    libboost-all-dev \
-    libasio-dev
-
-# 4. Build workspace (C++ packages)
-colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
-
-# 5. Source workspace
+# 3. Source ROS2 workspace
+cd ~/THEFENCEBOT/src/vr_robot_sim
 source install/setup.bash
-
-# 6. Install MoveIt2
-sudo apt install ros-humble-moveit
-
-# 7. Run installation script
-./scripts/install_dependencies.sh
 ```
 
-### Running the System
-
-**Terminal 1: Launch ROS2 nodes**
+Add this alias to ~/.bashrc for convenience:
 ```bash
-source install/setup.bash
-ros2 launch fencebot_core teleoperation.launch.py
+alias simenv='source /opt/ros/humble/setup.bash && source /opt/isaaclab_data/.venv/bin/activate'
 ```
-
-**Terminal 2: Start visualization (optional)**
-```bash
-ros2 launch fencebot_core visualization.launch.py
-```
-
-**VR Headset: Launch Unity application**
-- Open `vr_app` in Unity
-- Build and run on your VR platform
-- Ensure robot IP is configured correctly
 
 ---
 
-## ⚙️ Configuration
+## ▶️ Running the System
 
-### VR-to-Robot Coordinate Mapping
-
-Edit `config/vr_mapping.yaml`:
-
-```yaml
-coordinate_transform:
-  translation: [0.0, 0.0, 0.5]  # Offset between VR and robot origin
-  rotation: [0.0, 0.0, 0.0]     # Euler angles (roll, pitch, yaw)
-  scale: 1.0                     # Scale factor
-
-control_sensitivity:
-  position: 1.0
-  rotation: 1.0
+**Terminal 1 — UDP Publisher (VR → ROS2)**
+```bash
+source install/setup.bash
+ros2 run vr_robot_sim vr_udp_publisher
 ```
 
-### Safety Limits
+**Terminal 2 — Robot Controller (ROS2 → Isaac Lab)**
+```bash
+source install/setup.bash
+ros2 run vr_robot_sim robot_controller
+```
 
-Edit `config/safety_limits.yaml`:
+**Terminal 3 — Isaac Lab Sim**
+```bash
+simenv
+cd ~/THEFENCEBOT/isaac_env
+~/THEFENCEBOT/IsaacLab/isaaclab.sh -p run_sim.py
+```
 
-```yaml
-workspace:
-  x_min: -0.5
-  x_max: 0.5
-  y_min: -0.5
-  y_max: 0.5
-  z_min: 0.1
-  z_max: 1.0
-
-velocity_limits:
-  max_linear: 0.5    # m/s
-  max_angular: 1.0   # rad/s
-
-emergency_stop:
-  button: "trigger"  # VR controller button
-  timeout: 5.0       # seconds
+**Terminal 4 — Test (without VR headset)**
+```bash
+python3 -c "
+import socket, struct, time
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+while True:
+    data = struct.pack('7f', 0.5, 0.0, 0.6, 0.0, 0.0, 0.0, 1.0)
+    sock.sendto(data, ('127.0.0.1', 5006))
+    time.sleep(0.02)
+"
 ```
 
 ---
@@ -302,143 +172,56 @@ emergency_stop:
 
 | Topic | Type | Description |
 |-------|------|-------------|
-| `/vr/sword_pose` | geometry_msgs/PoseStamped | VR controller position/orientation |
-| `/vr/buttons` | std_msgs/Bool[] | VR button states |
-| `/joint_states` | sensor_msgs/JointState | Current robot joint angles |
-| `/joint_commands` | trajectory_msgs/JointTrajectory | Target joint commands |
-| `/safety/status` | std_msgs/String | Safety system status |
-| `/emergency_stop` | std_msgs/Bool | Emergency stop trigger |
+| `/vr_pose` | geometry_msgs/PoseStamped | VR controller pose (BEST_EFFORT QoS) |
 
 ---
 
-## 🎮 Controls
+## 📊 UDP Packet Format
 
-| VR Input | Action |
-|----------|--------|
-| **Grip Button** | Enable/disable robot control |
-| **Trigger** | Emergency stop |
-| **Joystick** | Fine position adjustment |
-| **A/X Button** | Mode switching (future) |
+Both ports use the same 7-float binary format (28 bytes):
 
----
-
-## 🔧 Development Roadmap
-
-### Phase 1: Teleoperation (Weeks 1-10) ✅ Current Phase
-- [x] VR → UDP → ROS2 pipeline
-- [ ] IK solver integration
-- [ ] Safety systems
-- [ ] User experience polish
-- [ ] Data collection setup
-
-### Phase 2: Autonomous Layer (Future)
-- [ ] Behavior cloning from teleoperation data
-- [ ] Simple reactive behaviors (block, parry)
-- [ ] Mode switching (teleoperation ↔ autonomous)
-- [ ] Reinforcement learning training
-
----
-
-## 📊 Performance Metrics
-
-**Target specifications:**
-- **Latency:** <50ms (VR controller → robot movement)
-- **Update Rate:** 100Hz minimum
-- **Workspace:** 1m³ fencing zone
-- **Safety Response:** <10ms emergency stop
-
-**Monitoring:**
-```bash
-# Check topic rates
-ros2 topic hz /vr/sword_pose
-
-# Monitor latency
-ros2 topic echo /diagnostics
+```
+struct Packet {
+    float x, y, z;          // position (meters)
+    float qx, qy, qz, qw;   // orientation (quaternion)
+};
 ```
 
----
-
-## 🛡️ Safety
-
-⚠️ **IMPORTANT SAFETY GUIDELINES**
-
-1. **Always test in a clear workspace** with no people nearby
-2. **Keep emergency stop accessible** at all times
-3. **Start with reduced speed limits** (20% max velocity)
-4. **Perform calibration** before each session
-5. **Never bypass safety limits** in production code
-
-See [docs/safety.md](docs/safety.md) for complete safety protocols.
+Port 5005: VR headset → vr_udp_publisher  
+Port 5006: robot_controller → Isaac Lab
 
 ---
 
-## 🐛 Troubleshooting
+##  Current Progress
 
-### High Latency (>100ms)
-- Check network connection (use wired ethernet)
-- Verify ROS2 DDS settings
-- Profile with `ros2 topic hz`
-
-### Robot Not Responding
-- Check emergency stop status
-- Verify joint limits in config
-- Test IK solver independently
-
-### VR Tracking Issues
-- Recalibrate VR play area
-- Check coordinate transform in config
-- Verify UDP packets are being sent
-
-See [docs/troubleshooting.md](docs/troubleshooting.md) for more solutions.
+- [x] ROS2 C++ UDP publisher node
+- [x] ROS2 C++ subscriber + control loop
+- [x] Isaac Lab install (Python 3.11, /opt/isaaclab_data)
+- [x] ASEM URDF → USD conversion
+- [x] ASEM robot spawning in Isaac Sim
+- [x] Differential IK solver working
+- [x] End-effector tracking target positions (<1mm error on static targets)
+- [ ] Forward UDP from robot_controller to port 5006
+- [ ] Connect real VR headset
+- [ ] Workspace scaling (VR space → robot workspace)
+- [ ] Gripper control
+- [ ] Deploy to real hardware
 
 ---
 
-## 📚 Resources
+##  Known Issues / Notes
 
-- [ROS2 Humble Documentation](https://docs.ros.org/en/humble/)
-- [MoveIt2 Tutorials](https://moveit.picknik.ai/main/index.html)
-- [Unity SteamVR Plugin](https://valvesoftware.github.io/steamvr_unity_plugin/)
-- [UDP Communication in Unity](https://wiki.unity3d.com/index.php/UDP_Communication)
-
----
-
-## 🤝 Contributing
-
-Contributions welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- ROS2 Humble uses Python 3.10, Isaac Lab uses Python 3.11 — they cannot share a Python process. Communication between them is done via UDP (port 5006) instead of rclpy.
+- Isaac Lab venv must be activated before running isaaclab.sh
+- Robot workspace center is ~[0.5, 0.0, 0.6] — send targets within this region for IK to converge
+- IK diverges on fast-moving targets — keep target velocity smooth for teleoperation
 
 ---
 
-## 📝 License
+##  License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) file for details.
-
----
-
-## 👥 Authors
-
-- Your Name - [GitHub](https://github.com/yourusername)
+MIT License
 
 ---
 
-## 🙏 Acknowledgments
-
-- ROS2 community for excellent middleware
-- MoveIt2 team for inverse kinematics solver
-- Unity/SteamVR for VR framework
-
----
-
-## 📧 Contact
-
-Questions? Open an issue or contact: your.email@example.com
-
----
-
-**Status:** 🚧 In Development (Phase 1: Teleoperation)  
-**Last Updated:** February 2026
+**Last Updated:** March 2026
