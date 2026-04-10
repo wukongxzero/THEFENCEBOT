@@ -247,29 +247,29 @@ src/robot_controller.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robot_controller.dir/build.make CMakeFiles/robot_controller.dir/src/robot_controller.cpp.s
 .PHONY : src/robot_controller.cpp.s
 
-src/udp_publisher.o: src/udp_publisher.cpp.o
-.PHONY : src/udp_publisher.o
+src/vr_udp_publisher.o: src/vr_udp_publisher.cpp.o
+.PHONY : src/vr_udp_publisher.o
 
 # target to build an object file
-src/udp_publisher.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/vr_udp_publisher.dir/build.make CMakeFiles/vr_udp_publisher.dir/src/udp_publisher.cpp.o
-.PHONY : src/udp_publisher.cpp.o
+src/vr_udp_publisher.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vr_udp_publisher.dir/build.make CMakeFiles/vr_udp_publisher.dir/src/vr_udp_publisher.cpp.o
+.PHONY : src/vr_udp_publisher.cpp.o
 
-src/udp_publisher.i: src/udp_publisher.cpp.i
-.PHONY : src/udp_publisher.i
+src/vr_udp_publisher.i: src/vr_udp_publisher.cpp.i
+.PHONY : src/vr_udp_publisher.i
 
 # target to preprocess a source file
-src/udp_publisher.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/vr_udp_publisher.dir/build.make CMakeFiles/vr_udp_publisher.dir/src/udp_publisher.cpp.i
-.PHONY : src/udp_publisher.cpp.i
+src/vr_udp_publisher.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vr_udp_publisher.dir/build.make CMakeFiles/vr_udp_publisher.dir/src/vr_udp_publisher.cpp.i
+.PHONY : src/vr_udp_publisher.cpp.i
 
-src/udp_publisher.s: src/udp_publisher.cpp.s
-.PHONY : src/udp_publisher.s
+src/vr_udp_publisher.s: src/vr_udp_publisher.cpp.s
+.PHONY : src/vr_udp_publisher.s
 
 # target to generate assembly for a file
-src/udp_publisher.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/vr_udp_publisher.dir/build.make CMakeFiles/vr_udp_publisher.dir/src/udp_publisher.cpp.s
-.PHONY : src/udp_publisher.cpp.s
+src/vr_udp_publisher.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vr_udp_publisher.dir/build.make CMakeFiles/vr_udp_publisher.dir/src/vr_udp_publisher.cpp.s
+.PHONY : src/vr_udp_publisher.cpp.s
 
 # Help Target
 help:
@@ -291,9 +291,9 @@ help:
 	@echo "... src/robot_controller.o"
 	@echo "... src/robot_controller.i"
 	@echo "... src/robot_controller.s"
-	@echo "... src/udp_publisher.o"
-	@echo "... src/udp_publisher.i"
-	@echo "... src/udp_publisher.s"
+	@echo "... src/vr_udp_publisher.o"
+	@echo "... src/vr_udp_publisher.i"
+	@echo "... src/vr_udp_publisher.s"
 .PHONY : help
 
 

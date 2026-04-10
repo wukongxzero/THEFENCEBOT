@@ -1,0 +1,8 @@
+source;share/vr_robot_sim/hook/cmake_prefix_path.ps1
+source;share/vr_robot_sim/hook/cmake_prefix_path.dsv
+source;share/vr_robot_sim/hook/cmake_prefix_path.sh
+source;share/vr_robot_sim/local_setup.bash
+source;share/vr_robot_sim/local_setup.dsv
+source;share/vr_robot_sim/local_setup.ps1
+source;share/vr_robot_sim/local_setup.sh
+source;share/vr_robot_sim/local_setup.zsh

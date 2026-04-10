@@ -8,7 +8,7 @@ find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_executable(vr_udp_publisher src/udp_publisher.cpp)
+add_executable(vr_udp_publisher src/vr_udp_publisher.cpp)
 ament_target_dependencies(vr_udp_publisher rclcpp geometry_msgs)
 
 add_executable(robot_controller src/robot_controller.cpp)

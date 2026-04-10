@@ -1,0 +1,17 @@
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/lib/vr_robot_sim/vr_udp_publisher
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/lib/vr_robot_sim/robot_controller
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/ament_index/resource_index/package_run_dependencies/vr_robot_sim
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/ament_index/resource_index/parent_prefix_path/vr_robot_sim
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/ament_prefix_path.sh
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/ament_prefix_path.dsv
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/path.sh
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/path.dsv
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.bash
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.sh
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.zsh
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.dsv
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/package.dsv
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/ament_index/resource_index/packages/vr_robot_sim
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/cmake/vr_robot_simConfig.cmake
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/cmake/vr_robot_simConfig-version.cmake
+/home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/package.xml

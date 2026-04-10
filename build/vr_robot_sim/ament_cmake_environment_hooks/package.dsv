@@ -1,0 +1,4 @@
+source;share/vr_robot_sim/local_setup.bash
+source;share/vr_robot_sim/local_setup.dsv
+source;share/vr_robot_sim/local_setup.sh
+source;share/vr_robot_sim/local_setup.zsh

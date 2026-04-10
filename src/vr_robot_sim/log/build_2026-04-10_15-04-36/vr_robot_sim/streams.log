@@ -1,0 +1,67 @@
+[0.007s] Invoking command in '/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim': CMAKE_PREFIX_PATH=/home/wukong/THEFENCEBOT/install/vr_robot_sim:/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim:/opt/ros/humble:/home/wukong/ros2_ws/install/ASEM_v2 /usr/bin/cmake /home/wukong/THEFENCEBOT/src/vr_robot_sim -DCMAKE_INSTALL_PREFIX=/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim
+[0.050s] -- The C compiler identification is GNU 11.4.0
+[0.090s] -- The CXX compiler identification is GNU 11.4.0
+[0.096s] -- Detecting C compiler ABI info
+[0.152s] -- Detecting C compiler ABI info - done
+[0.156s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.156s] -- Detecting C compile features
+[0.156s] -- Detecting C compile features - done
+[0.158s] -- Detecting CXX compiler ABI info
+[0.221s] -- Detecting CXX compiler ABI info - done
+[0.226s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.226s] -- Detecting CXX compile features
+[0.227s] -- Detecting CXX compile features - done
+[0.228s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.324s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.381s] -- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+[0.404s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.407s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.412s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.419s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.428s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.453s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.454s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.526s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.546s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.578s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.583s] -- Looking for pthread.h
+[0.646s] -- Looking for pthread.h - found
+[0.646s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.707s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.708s] -- Found Threads: TRUE  
+[0.736s] -- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.744s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.791s] -- Configuring done
+[0.799s] -- Generating done
+[0.802s] -- Build files have been written to: /home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim
+[0.810s] Invoked command in '/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim' returned '0': CMAKE_PREFIX_PATH=/home/wukong/THEFENCEBOT/install/vr_robot_sim:/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim:/opt/ros/humble:/home/wukong/ros2_ws/install/ASEM_v2 /usr/bin/cmake /home/wukong/THEFENCEBOT/src/vr_robot_sim -DCMAKE_INSTALL_PREFIX=/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim
+[0.811s] Invoking command in '/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim': CMAKE_PREFIX_PATH=/home/wukong/THEFENCEBOT/install/vr_robot_sim:/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim:/opt/ros/humble:/home/wukong/ros2_ws/install/ASEM_v2 /usr/bin/cmake --build /home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim -- -j16 -l16
+[0.852s] [ 50%] [32mBuilding CXX object CMakeFiles/vr_udp_publisher.dir/src/vr_udp_publisher.cpp.o[0m
+[0.852s] [ 50%] [32mBuilding CXX object CMakeFiles/robot_controller.dir/src/robot_controller.cpp.o[0m
+[3.606s] [ 75%] [32m[1mLinking CXX executable vr_udp_publisher[0m
+[3.732s] [ 75%] Built target vr_udp_publisher
+[6.095s] [100%] [32m[1mLinking CXX executable robot_controller[0m
+[6.336s] [100%] Built target robot_controller
+[6.345s] Invoked command in '/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim' returned '0': CMAKE_PREFIX_PATH=/home/wukong/THEFENCEBOT/install/vr_robot_sim:/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim:/opt/ros/humble:/home/wukong/ros2_ws/install/ASEM_v2 /usr/bin/cmake --build /home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim -- -j16 -l16
+[6.353s] Invoking command in '/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim': CMAKE_PREFIX_PATH=/home/wukong/THEFENCEBOT/install/vr_robot_sim:/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim:/opt/ros/humble:/home/wukong/ros2_ws/install/ASEM_v2 /usr/bin/cmake --install /home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim
+[6.358s] -- Install configuration: ""
+[6.358s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/lib/vr_robot_sim/vr_udp_publisher
+[6.359s] -- Set runtime path of "/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/lib/vr_robot_sim/vr_udp_publisher" to ""
+[6.359s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/lib/vr_robot_sim/robot_controller
+[6.362s] -- Set runtime path of "/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/lib/vr_robot_sim/robot_controller" to ""
+[6.362s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/ament_index/resource_index/package_run_dependencies/vr_robot_sim
+[6.362s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/ament_index/resource_index/parent_prefix_path/vr_robot_sim
+[6.362s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/environment/ament_prefix_path.sh
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/environment/ament_prefix_path.dsv
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/environment/path.sh
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/environment/path.dsv
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/local_setup.bash
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/local_setup.sh
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/local_setup.zsh
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/local_setup.dsv
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/package.dsv
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/ament_index/resource_index/packages/vr_robot_sim
+[6.363s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/cmake/vr_robot_simConfig.cmake
+[6.364s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/cmake/vr_robot_simConfig-version.cmake
+[6.364s] -- Installing: /home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim/share/vr_robot_sim/package.xml
+[6.365s] Invoked command in '/home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim' returned '0': CMAKE_PREFIX_PATH=/home/wukong/THEFENCEBOT/install/vr_robot_sim:/home/wukong/THEFENCEBOT/src/vr_robot_sim/install/vr_robot_sim:/opt/ros/humble:/home/wukong/ros2_ws/install/ASEM_v2 /usr/bin/cmake --install /home/wukong/THEFENCEBOT/src/vr_robot_sim/build/vr_robot_sim

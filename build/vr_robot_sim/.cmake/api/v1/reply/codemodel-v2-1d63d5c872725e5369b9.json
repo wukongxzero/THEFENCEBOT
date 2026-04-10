@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-f9dbcb5d60b6d6a32bc3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "vr_robot_sim",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "robot_controller::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-robot_controller-12d15cd523c7f616f7e9.json",
+					"name" : "robot_controller",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-24903014a8f12e9ba6c1.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vr_robot_sim_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vr_robot_sim_uninstall-64945f871bdab31d0610.json",
+					"name" : "vr_robot_sim_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vr_udp_publisher::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vr_udp_publisher-ca362466102fd88f9c7e.json",
+					"name" : "vr_udp_publisher",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/wukong/THEFENCEBOT/build/vr_robot_sim",
+		"source" : "/home/wukong/THEFENCEBOT/src/vr_robot_sim"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

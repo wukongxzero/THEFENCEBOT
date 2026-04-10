@@ -108,6 +108,10 @@ def main():
             actions = torch.zeros(1, 6, device=env.device)
 
         env.step(actions)
+        contact = env.get_contact_forces()
+        if contact and contact["in_contact"].any():
+            force = contact["net_force"][0].cpu().numpy()
+            print(f"CONTACT — Force: [{force[0]:.3f}, {force[1]:.3f}, {force[2]:.3f}] N")
 
 
 if __name__ == "__main__":

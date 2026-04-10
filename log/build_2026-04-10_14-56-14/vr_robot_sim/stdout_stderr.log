@@ -1,0 +1,22 @@
+[35m[1mConsolidate compiler generated dependencies of target vr_udp_publisher[0m
+[35m[1mConsolidate compiler generated dependencies of target robot_controller[0m
+[ 50%] Built target robot_controller
+[100%] Built target vr_udp_publisher
+-- Install configuration: ""
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/lib/vr_robot_sim/vr_udp_publisher
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/lib/vr_robot_sim/robot_controller
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/ament_index/resource_index/package_run_dependencies/vr_robot_sim
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/ament_index/resource_index/parent_prefix_path/vr_robot_sim
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/ament_prefix_path.sh
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/path.sh
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/environment/path.dsv
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.bash
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.sh
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.zsh
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/local_setup.dsv
+-- Installing: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/package.dsv
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/ament_index/resource_index/packages/vr_robot_sim
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/cmake/vr_robot_simConfig.cmake
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/cmake/vr_robot_simConfig-version.cmake
+-- Up-to-date: /home/wukong/THEFENCEBOT/install/vr_robot_sim/share/vr_robot_sim/package.xml
