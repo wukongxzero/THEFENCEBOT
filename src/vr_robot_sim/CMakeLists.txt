@@ -17,4 +17,8 @@ ament_target_dependencies(robot_controller rclcpp geometry_msgs)
 install(TARGETS vr_udp_publisher robot_controller
     DESTINATION lib/${PROJECT_NAME})
 
+# Install launch files so `ros2 launch vr_robot_sim fence_bot.launch.py` works
+install(DIRECTORY launch
+    DESTINATION share/${PROJECT_NAME})
+
 ament_package()

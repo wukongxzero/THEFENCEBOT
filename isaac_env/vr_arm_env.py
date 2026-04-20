@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 import torch
 import isaaclab.sim as sim_utils
 from isaaclab.assets import Articulation, ArticulationCfg, RigidObject, RigidObjectCfg
@@ -9,10 +12,26 @@ from isaaclab.sensors import ContactSensor, ContactSensorCfg
 from isaaclab.utils import configclass
 
 
+# ---------------------------------------------------------------------------
+# Resolve the ASEM USD path.
+#
+# Priority:
+#   1. FENCEBOT_USD_PATH environment variable (set this on any new machine).
+#   2. Repo-relative default: <repo_root>/Simulation/ASEM_V2.SLDASM/usd/ASEM_V2.usd
+#
+# The previous hardcoded /home/wukong/... path broke any machine that wasn't
+# Pavan's laptop — including the grading environment.
+# ---------------------------------------------------------------------------
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_DEFAULT_USD = _REPO_ROOT / "Simulation" / "ASEM_V2.SLDASM" / "usd" / "ASEM_V2.usd"
+ASEM_USD_PATH = os.environ.get("FENCEBOT_USD_PATH", str(_DEFAULT_USD))
+
+
 ASEM_CFG = ArticulationCfg(
     prim_path="/World/envs/env_.*/Robot",
     spawn=sim_utils.UsdFileCfg(
-        usd_path="/home/wukong/THEFENCEBOT/Simulation/ASEM_V2.SLDASM/usd/ASEM_V2.usd",
+        usd_path=ASEM_USD_PATH,
+        activate_contact_sensors=True,
     ),
     init_state=ArticulationCfg.InitialStateCfg(
         pos=(0.0, 0.0, 0.0),
@@ -30,7 +49,7 @@ ASEM_CFG = ArticulationCfg(
 TARGET_CFG = RigidObjectCfg(
     prim_path="/World/envs/env_.*/Target",
     spawn=sim_utils.CuboidCfg(
-        size=(0.05, 0.05, 0.05),  # 5cm cube
+        size=(0.12, 0.12, 0.12),  # 5cm cube
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=True,        # floats in place as a static target
             linear_damping=10.0,
@@ -41,7 +60,7 @@ TARGET_CFG = RigidObjectCfg(
         visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(1.0, 0.2, 0.2)),  # red
     ),
     init_state=RigidObjectCfg.InitialStateCfg(
-        pos=(0.5, 0.0, 0.6),   # centered in ASEM workspace
+        pos=(0.500, -0.017, 0.600),
         rot=(1.0, 0.0, 0.0, 0.0),
     ),
 )
@@ -79,8 +98,10 @@ class ASEMEnv(DirectRLEnv):
         self.target = RigidObject(TARGET_CFG)
         self.scene.rigid_objects["target"] = self.target
 
-        #self.contact_sensor = ContactSensor(CONTACT_SENSOR_CFG)
-        #self.scene.sensors["contact_sensor"] = self.contact_sensor
+        # Contact sensor on the end-effector link — needed for sword-on-target
+        # scoring. Data is accessed through get_contact_forces() below.
+        self.contact_sensor = ContactSensor(CONTACT_SENSOR_CFG)
+        self.scene.sensors["contact_sensor"] = self.contact_sensor
 
         sim_utils.spawn_ground_plane("/World/ground", sim_utils.GroundPlaneCfg())
         sim_utils.spawn_light("/World/light", sim_utils.DistantLightCfg(intensity=3000.0))
@@ -109,11 +130,37 @@ class ASEMEnv(DirectRLEnv):
         self.robot.reset(env_ids)
         self.target.reset(env_ids)
 
-    def get_contact_forces(self):
-        if not hasattr(self, 'contact_sensor'):
+    def get_contact_forces(self, force_threshold: float = 0.5):
+        """
+        Return contact sensor state for the end-effector link.
+
+        force_threshold: minimum force magnitude (N) to consider a hit
+                         (filters out noise / numerical jitter).
+
+        Returns None if the sensor isn't active, otherwise:
+            {
+                "in_contact":    (N,)   bool tensor
+                "net_force":     (N, 3) force vector in world frame
+                "force_history": (N, H, 3) recent force history
+                "hit":           (N,)   bool — force magnitude above threshold
+                "force_mag":     (N,)   float — ||net_force||
+            }
+        """
+        if not hasattr(self, "contact_sensor"):
             return None
+
+        data = self.contact_sensor.data
+        net = data.net_forces_w
+        # net shape is (num_envs, 1, 3) in DirectRLEnv; flatten the body dim.
+        if net.dim() == 3:
+            net = net.squeeze(1)
+        force_mag = torch.linalg.norm(net, dim=-1)
+        hit = force_mag > force_threshold
+
         return {
-            "in_contact": self.contact_sensor.data.in_contact,
-            "net_force": self.contact_sensor.data.net_forces_w,
-            "force_history": self.contact_sensor.data.net_forces_w_history
+            "in_contact":    hit,
+            "net_force":     net,
+            "force_history": data.net_forces_w_history,
+            "hit":           hit,
+            "force_mag":     force_mag,
         }
